@@ -1,3 +1,8 @@
+Примеры XML запросов
+start.shell
+reports
+.egg-info
+.idea
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
