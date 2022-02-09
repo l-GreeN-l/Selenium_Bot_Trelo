@@ -64,12 +64,12 @@ class TestAddCard:
         self.page.to_wait(self.wait,
                           TabBoardLocators.BOARD,
                           'В панели с бордами не найденно ни одной доски')
-        time.sleep(1)
+        time.sleep(0.5)
         self.page.go_to_board(self.boardname)
         self.page = BoardPage(browser, self.url)
         self.page.to_wait(self.wait, BoardPageLocators.GROUP,)
         self.page.to_wait(self.wait, BoardPageLocators.BTN_ADD_CARD,)
-
+        time.sleep(1)
         self.page.create_new_card(self.cardname,self.groupname)
         time.sleep(0.5)
         self.page.go_to_card(self.cardname)

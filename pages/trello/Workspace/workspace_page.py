@@ -35,8 +35,8 @@ class WorkspacePage(BasePage):
         boards = self.browser.find_elements(*TabBoardLocators.BOARD)
         for board in boards:
             try:
-                title = (By.XPATH, f'//*[contains(@title, "{boardname}")]')
-                if board.find_elements(*title):
+                title = (By.XPATH, f'.//*[contains(@title, "{boardname}")]')
+                if board.find_element(*title):
                     return board
             except NoSuchElementException as ex:
                 print('Доска не найдена \n', ex)
