@@ -8,6 +8,7 @@ import time
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class WorkspacePageLocators():
@@ -32,14 +33,17 @@ class WorkspacePage(BasePage):
 
     # Найти доску
     def find_board(self, boardname):
+        title1 = (By.XPATH, f'//*[contains(@title, "{boardname}")]')
+        title2 = (By.XPATH, f'.//*[contains(@title, "{boardname}")]')
+        self.to_wait(self.wait, title1 )
         boards = self.browser.find_elements(*TabBoardLocators.BOARD)
+
         for board in boards:
             try:
-                title = (By.XPATH, f'.//*[contains(@title, "{boardname}")]')
-                if board.find_element(*title):
+                if board.find_element(*title2):
                     return board
             except NoSuchElementException as ex:
-                print('Доска не найдена \n', ex)
+                print('Не та доска \n', ex)
 
     # Перейти в определенную доску
     def go_to_board(self, boardname):

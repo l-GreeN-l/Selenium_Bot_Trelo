@@ -9,6 +9,7 @@ import time
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class CardPageLocators():
@@ -27,16 +28,17 @@ class CardPageLocators():
 
         BTN_ADD_MEMBER = (By.XPATH, '//*[contains(@title, "Members")]')
         TF_MEMBER = (By.XPATH, '//*[contains(@placeholder, "Search members")]')
+        MEMBER = (By.XPATH, '//*[@class="name js-select-member"]')
 
         BTN_ADD_LABEL = (By.XPATH, '//*[contains(@title, "Labels")]')
         TF_LABEL = (By.XPATH, '//*[contains(@placeholder, "Search labels")]')
 
         BTN_ADD_CHECKLIST = (By.XPATH, '//*[contains(@title, "Checklist")]')
-        TF_TITLE = (By.XPATH, '')
-        BTN_IN_MENU_ADD_CHECHLIST = (By.XPATH, '')
 
         BTN_ADD_LOCATION = (By.XPATH, '//*[contains(@title, "Location")]')
         TF_LOCATION = (By.XPATH, '//*[contains(@placeholder, "Search Google Maps")]')
+        TF_LOC_ITEM = (By.XPATH, '//*[contains(@class,"js-location-item")]')
+        LOCATION = (By.XPATH, '//*[contains(@id,"js-static-map")]')
 
         BTN_MOVE = (By.XPATH, '//*[contains(@title, "Move")]')
         COMBO_LIST = (By.XPATH, '//*[contains(@class, "js-select-list")]')
@@ -53,38 +55,31 @@ class CardPage(BasePage):
 
         pageloc = CardPageLocators()
 
+
         def add_member(self, name):
                 self.is_element_present(*self.pageloc.BTN_ADD_MEMBER).click()
                 self.is_element_present(*self.pageloc.TF_MEMBER).send_keys(name)
-                time.sleep(1)
-                self.is_element_present(*self.pageloc.TF_MEMBER).send_keys(Keys.ENTER)
+                self.is_element_present(*self.pageloc.MEMBER).click()
                 self.is_element_present(*self.pageloc.BTN_CLOSE_ALL_MENU).click()
 
         def add_location(self, location):
                 self.is_element_present(*self.pageloc.BTN_ADD_LOCATION).click()
                 time.sleep(0.5)
                 self.is_element_present(*self.pageloc.TF_LOCATION).send_keys(location)
-                time.sleep(2)
+                time.sleep(3)
                 self.is_element_present(*self.pageloc.TF_LOCATION).send_keys(Keys.ENTER)
-                time.sleep(1)
-
-        def add_checklist(self, listname):
-            pass
+                self.to_wait(self.wait, self.pageloc.LOCATION)
 
         def add_label(self, labels):
-                time.sleep(2)
                 self.is_element_present(*self.pageloc.BTN_ADD_LABEL).click()
                 for label in labels:
                         self.is_element_present(*self.pageloc.TF_LABEL).send_keys(label)
                         self.is_element_present(*self.pageloc.TF_LABEL).send_keys(Keys.ENTER)
-                time.sleep(0.5)
                 self.is_element_present(*self.pageloc.BTN_CLOSE_ALL_MENU).click()
 
         def dell_card(self, cardname):
                 self.is_element_present(*self.pageloc.BTN_SHARE).click()
-                time.sleep(0.5)
                 self.is_element_present(*self.pageloc.BTN_DELL).click()
-                time.sleep(0.5)
                 self.is_element_present(*self.pageloc.YES_DELL).click()
 
         def move(self, groupname):

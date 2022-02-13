@@ -9,6 +9,8 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 class BoardPageLocators():
@@ -54,20 +56,20 @@ class BoardPage(BasePage):
 
     # Перейти в карточку
     def go_to_card(self, cardname):
+        time.sleep(0.5)
         card = self.find_card(cardname=cardname)
         if card:
             card.click()
         else:
-            print('Карточка не найденна')
-            raise NoSuchElementException
+            raise NoSuchElementException('Карточка не найденна')
 
     # Создать новую карточку
     def create_new_card(self, cardname, groupname):
         group = self.find_group(groupname)
         group.find_element(*self.pageloc.BTN_ADD_CARD).click()
+        self.to_wait(self.wait, self.pageloc.TF_NEW_CARD)
         text_field = group.find_element(*self.pageloc.TF_NEW_CARD)
         text_field.send_keys(cardname)
         text_field.send_keys(Keys.ENTER)
-        time.sleep(1)
-        self.browser.find_element(*self.pageloc.CLOSE_NEW_CARD).click()
+        self.is_element_present(*self.pageloc.CLOSE_NEW_CARD).click()
 

@@ -34,15 +34,16 @@ class TestAddCard:
         self.member = member
         self.location = location
         self.cardname = cardname
-        self.wait = WebDriverWait(browser, 5)
+        # self.wait = WebDriverWait(browser, 5)
         print(self.cardname)
+
         if labels:
-            file = open(labels,'r')
-            list = []
-            for str in file:
-                str = str.split('\n')[0]
-                list.append(str)
-            self.labels = list
+            with open(labels,'r') as file:
+                list = []
+                for str in file:
+                    str = str.split('\n')[0]
+                    list.append(str)
+                    self.labels = list
         self.page = LoginPage(browser, self.url)
         self.page.open()
         self.page.login(self.login, self.password)
@@ -50,28 +51,25 @@ class TestAddCard:
     @pytest.mark.card
     @pytest.mark.smoke
     def test_add_card(self, browser):
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           WorkspacePageLocators.WORKSPACE_PAGE,
                           'Страница с рабочим пространством не открыватся')
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           SideBarPanelLocators.TAB_BOARDS,
                           'Не найденна вкладка boards')
         self.page = WorkspacePage(browser, self.url)
         self.page.go_to_tab_boards()
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           TabBoardLocators.WORKSPACE_BOARDS,
                           'Панель с бордами не открывается')
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           TabBoardLocators.BOARD,
                           'В панели с бордами не найденно ни одной доски')
-        time.sleep(0.5)
         self.page.go_to_board(self.boardname)
         self.page = BoardPage(browser, self.url)
-        self.page.to_wait(self.wait, BoardPageLocators.GROUP,)
-        self.page.to_wait(self.wait, BoardPageLocators.BTN_ADD_CARD,)
-        time.sleep(1)
+        self.page.to_wait(self.page.wait, BoardPageLocators.GROUP,)
+        self.page.to_wait(self.page.wait, BoardPageLocators.BTN_ADD_CARD,)
         self.page.create_new_card(self.cardname,self.groupname)
-        time.sleep(0.5)
         self.page.go_to_card(self.cardname)
 
         self.page = CardPage(browser, self.url)
@@ -84,19 +82,17 @@ class TestAddCard:
         assert self.cardname, 'Карточка не создана'
         self.page = WorkspacePage(browser, self.url)
         self.page.go_to_tab_boards()
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           TabBoardLocators.BOARD,
                           'В панели с бордами не найденно ни одной доски')
-        time.sleep(1)
         self.page.go_to_board(self.boardname)
         self.page = BoardPage(browser, self.url)
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           BoardPageLocators.GROUP,
                           'На доске нет ни одной группы')
-        time.sleep(1)
         self.page.go_to_card(self.cardname)
         self.page = CardPage(browser, self.url)
-        self.page.to_wait(self.wait,
+        self.page.to_wait(self.page.wait,
                           CardPageLocators.TA_COMMENT,
                           'Карточка не загружена')
         self.page.dell_card(self.cardname)

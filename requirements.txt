@@ -1,1 +1,1 @@
--e .
+-e git+https://github.com/zgreenz/Selenium_Bot_Trelo.git@0d29092159556d8c5361f87331c3e96287073bf0#egg=trello_Bot
