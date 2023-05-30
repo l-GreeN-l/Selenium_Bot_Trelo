@@ -29,7 +29,7 @@ I used this test project on Mac OS. For Windows command must be changed, but par
 
 ## How deploy project
 
-    git clone https://github.com/zgreenz/Selenium_Bot_Trelo.git
+    git clone https://github.com/l-GreeN-l/Selenium_Bot_Trelo.git
 
     python3 -m venv venv
 
