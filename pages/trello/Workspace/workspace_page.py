@@ -12,17 +12,17 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class WorkspacePageLocators():
-    WORKSPACE_PAGE  = (By.XPATH, '//*[@id ="trello-root"]')
+    WORKSPACE_PAGE = (By.XPATH, '//*[@id ="trello-root"]')
 
 
 class SideBarPanelLocators():
-    TAB_BOARDS = (By.XPATH, '//*[contains(@data-test-id ,"home-team-boards-tab")]')
+    TAB_BOARDS = (By.XPATH, '//*[@data-testid="home-team-boards-tab"]')
 
 
 class TabBoardLocators():
     WORKSPACE_BOARDS = (By.XPATH, '//*[contains(@class, "boards-page-board-section-list")]')
     BOARD = (By.XPATH, '//*[contains(@class, "boards-page-board-section-list-item")]')
-    CREATE_NEW_BOARD = (By.XPATH, '//*[contains(@data-test-id ,"create-board-tile")]')
+    CREATE_NEW_BOARD = (By.XPATH, '//*[contains(text() ,"Create new board")]')
 
 
 class WorkspacePage(BasePage):
@@ -35,7 +35,7 @@ class WorkspacePage(BasePage):
     def find_board(self, boardname):
         title1 = (By.XPATH, f'//*[contains(@title, "{boardname}")]')
         title2 = (By.XPATH, f'.//*[contains(@title, "{boardname}")]')
-        self.to_wait(self.wait, title1 )
+        self.to_wait(self.wait, title1)
         boards = self.browser.find_elements(*TabBoardLocators.BOARD)
 
         for board in boards:

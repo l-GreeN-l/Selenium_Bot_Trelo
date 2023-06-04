@@ -29,7 +29,7 @@ I used this test project on Mac OS. For Windows command must be changed, but par
 
 ## How deploy project
 
-    git clone https://github.com/zgreenz/Selenium_Bot_Trelo.git
+    git clone https://github.com/l-GreeN-l/Selenium_Bot_Trelo.git
 
     python3 -m venv venv
 
@@ -73,7 +73,7 @@ html | file name your report
 i would recommend create shell file with start command.
 
     #!/bin/sh
-    python3.9 -m pytest -m "card" --login=admin --password=123 --url=https://trello.com/ --boardname="Kanban Test" --groupname="Backlog" --member=admins_friend_login, --location="Russia Moscow" --labels=labels.txt --cardname="Task-001" -s -v --html=reports/trelo_test_$(date +%d-%m-%Y-%H).html --self-contained-html tests/
+    python3 -m pytest -m "card" --login=admin --password=123 --url=https://trello.com/ --boardname="Kanban Test" --groupname="Backlog" --member=admins_friend_login, --location="Russia Moscow" --labels=labels.txt --cardname="Task-001" -s -v --html=reports/trelo_test_$(date +%d-%m-%Y-%H).html --self-contained-html tests/
     
 ### Useful Links
 What? | Links

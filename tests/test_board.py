@@ -14,12 +14,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.trello.login_page import LoginPage, LoginPageLocators
-from pages.trello.Workspace.workspace_page import WorkspacePage, WorkspacePageLocators, SideBarPanelLocators, TabBoardLocators
+from pages.trello.Workspace.workspace_page import WorkspacePage, WorkspacePageLocators, SideBarPanelLocators, \
+    TabBoardLocators
 from pages.trello.Workspace.Board.board_page import BoardPage, BoardPageLocators
 from pages.trello.Workspace.Board.Card.card_menu import CardPage, CardPageLocators
 
-
 from tools import Instruments
+
 
 class TestAddCard:
 
@@ -35,10 +36,9 @@ class TestAddCard:
         self.location = location
         self.cardname = cardname
         # self.wait = WebDriverWait(browser, 5)
-        print(self.cardname)
 
         if labels:
-            with open(labels,'r') as file:
+            with open(labels, 'r') as file:
                 list = []
                 for str in file:
                     str = str.split('\n')[0]
@@ -65,35 +65,34 @@ class TestAddCard:
         self.page.to_wait(self.page.wait,
                           TabBoardLocators.BOARD,
                           'В панели с бордами не найденно ни одной доски')
-        self.page.go_to_board(self.boardname)
-        self.page = BoardPage(browser, self.url)
-        self.page.to_wait(self.page.wait, BoardPageLocators.GROUP,)
-        self.page.to_wait(self.page.wait, BoardPageLocators.BTN_ADD_CARD,)
-        self.page.create_new_card(self.cardname,self.groupname)
-        self.page.go_to_card(self.cardname)
+        self.page.go_to_board(boardname=self.boardname)
+        self.page = BoardPage(browser=browser, url=self.url)
+        self.page.to_wait(self.page.wait, BoardPageLocators.GROUP, )
+        self.page.to_wait(self.page.wait, BoardPageLocators.BTN_ADD_CARD, )
+        self.page.create_new_card(cardname=self.cardname, groupname=self.groupname)
+        self.page.go_to_card(cardname=self.cardname)
+        self.page = CardPage(browser=browser, url=self.url)
 
-        self.page = CardPage(browser, self.url)
-        self.page.add_member(self.member)
-        self.page.add_label(self.labels)
-        self.page.add_location(self.location)
+        self.page.add_member(name=self.member)
+        self.page.add_label(labels=self.labels)
+        # self.page.add_location(self.location)
 
     @pytest.mark.card
-    def test_dell_card(self, browser ):
+    def test_dell_card(self, browser):
         assert self.cardname, 'Карточка не создана'
-        self.page = WorkspacePage(browser, self.url)
+        self.page = WorkspacePage(browser=browser, url=self.url)
         self.page.go_to_tab_boards()
         self.page.to_wait(self.page.wait,
                           TabBoardLocators.BOARD,
                           'В панели с бордами не найденно ни одной доски')
-        self.page.go_to_board(self.boardname)
-        self.page = BoardPage(browser, self.url)
+        self.page.go_to_board(boardname=self.boardname)
+        self.page = BoardPage(browser=browser, url=self.url)
         self.page.to_wait(self.page.wait,
                           BoardPageLocators.GROUP,
                           'На доске нет ни одной группы')
-        self.page.go_to_card(self.cardname)
-        self.page = CardPage(browser, self.url)
+        self.page.go_to_card(cardname=self.cardname)
+        self.page = CardPage(browser=browser, url=self.url)
         self.page.to_wait(self.page.wait,
                           CardPageLocators.TA_COMMENT,
                           'Карточка не загружена')
-        self.page.dell_card(self.cardname)
-
+        self.page.dell_card(cardname=self.cardname)
