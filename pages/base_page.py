@@ -1,9 +1,8 @@
-#-----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
 #
 #                   Шаблон страницы
 #
-#-----------------------------------------------------------------------------------------------------------------------
-
+# ----------------------------------------------------------------------------------------------------------------------
 
 from selenium.common.exceptions import NoSuchElementException
 import time
@@ -13,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class BasePage():
+class BasePage:
 
     def __init__(self, browser, url):
         self.browser = browser
@@ -27,7 +26,7 @@ class BasePage():
     # Изменено возвращаемое значение
     def is_element_present(self, method, selector):
         try:
-            self.to_wait(wait=WebDriverWait(self.browser, 5),locator=(method,selector))
+            self.to_wait(wait=WebDriverWait(self.browser, 5), locator=(method, selector))
             obj = self.browser.find_element(method, selector)
         except (NoSuchElementException):
             print('> Element not search: ', selector[1])
@@ -54,4 +53,4 @@ class BasePage():
         try:
             wait.until(EC.element_to_be_clickable(locator))
         except TimeoutException as ex:
-            print(messange,'\n',ex)
+            print(messange, '\n', ex)

@@ -10,18 +10,19 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
-
+import random
 
 
 class BoardPageLocators():
-    BOARDS_PAGE_PANEL = (By.XPATH, '//*[contains(@class,"board-main-content")]') # Основной контент страницы с доской
-    GROUP = (By.XPATH, '//*[@id="board"]/*[contains(@class,"js-list list-wrapper")]') # Группы (колонки)
-    GROUP_NAME = (By.XPATH, '//textarea[contains(@class,"list-header-name")]' ) #  Имя группы
-    CARD = (By.XPATH, '//*[contains(@class,"list-card")][contains(@href,"/")]') # Карточка
-    CARD_NAME  = (By.XPATH, './/*[contains(@class,"list-card-title")]') # имя карточки
-    BTN_ADD_CARD = (By.XPATH, './/*[contains(@class,"open-card-composer")]') # Добавить новую карточку
-    TF_NEW_CARD  = (By.XPATH, './/*[contains(@class,"list-card-composer-textarea")]')    #   Название новой карточки
+    BOARDS_PAGE_PANEL = (By.XPATH, '//*[contains(@class,"board-main-content")]')  # Основной контент страницы с доской
+    GROUP = (By.XPATH, '//*[@id="board"]/*[contains(@class,"js-list list-wrapper")]')  # Группы (колонки)
+    GROUP_NAME = (By.XPATH, '//textarea[contains(@class,"list-header-name")]')  # Имя группы
+    CARD = (By.XPATH, '//*[contains(@class,"list-card")][contains(@href,"/")]')  # Карточка
+    CARD_NAME = (By.XPATH, './/*[contains(@class,"list-card-title")]')  # имя карточки
+    BTN_ADD_CARD = (By.XPATH, './/*[contains(@class,"open-card-composer")]')  # Добавить новую карточку
+    TF_NEW_CARD = (By.XPATH, './/*[contains(@class,"list-card-composer-textarea")]')  # Название новой карточки
     CLOSE_NEW_CARD = (By.XPATH, '//*[contains(@class,"cc-controls-section")]/*[contains(@class,"icon-close")]')
+
 
 class BoardPage(BasePage):
     pageloc = BoardPageLocators()
@@ -64,12 +65,15 @@ class BoardPage(BasePage):
             raise NoSuchElementException('Карточка не найденна')
 
     # Создать новую карточку
-    def create_new_card(self, cardname, groupname):
+    def create_new_card(self, groupname, cardname=None):
         group = self.find_group(groupname)
         group.find_element(*self.pageloc.BTN_ADD_CARD).click()
         self.to_wait(self.wait, self.pageloc.TF_NEW_CARD)
         text_field = group.find_element(*self.pageloc.TF_NEW_CARD)
-        text_field.send_keys(cardname)
+        if cardname:
+            text_field.send_keys(cardname)
+        else:
+            cardname = 'AutoTest' + str(random.randint(100))
+            text_field.send_keys(cardname)
         text_field.send_keys(Keys.ENTER)
         self.is_element_present(*self.pageloc.CLOSE_NEW_CARD).click()
-
